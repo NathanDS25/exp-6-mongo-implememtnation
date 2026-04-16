@@ -1,0 +1,223 @@
+/* Contact Card Styles */
+.contact-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeIn 0.4s ease;
+}
+
+.contact-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.card-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  word-break: break-word;
+}
+
+.card-date {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 6px 0 0 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-date svg {
+  flex-shrink: 0;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.detail-item svg {
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.detail-link {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.detail-link:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-edit,
+.btn-delete {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.btn-edit {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #0284c7;
+  border: 1px solid #7dd3fc;
+}
+
+.btn-edit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-edit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.btn-delete:hover:not(:disabled) {
+  background: linear-gradient(135deg, #fecaca 0%, #f87171 100%);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-delete:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-delete:disabled,
+.btn-edit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-deleting {
+  pointer-events: none;
+}
+
+.spinner-small {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  border-top-color: #dc2626;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .contact-card {
+    padding: 16px;
+  }
+
+  .card-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .card-name {
+    font-size: 15px;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .btn-edit span,
+  .btn-delete span {
+    display: none;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    justify-content: center;
+  }
+}

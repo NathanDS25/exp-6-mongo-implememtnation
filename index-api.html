@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Manager - With MongoDB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Contact Manager</h1>
+        
+        <!-- Form Section -->
+        <form id="contactForm">
+            <div class="input-group">
+                <input type="text" id="name" placeholder="Name" required>
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <input type="tel" id="number" placeholder="Phone Number" required>
+            </div>
+            <button type="submit" id="submitBtn">Add Contact</button>
+        </form>
+
+        <!-- Server Status Indicator -->
+        <div id="serverStatus" style="
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        ">
+            ⚠️ Connecting to server... Make sure the backend is running on http://localhost:5000
+        </div>
+      
+        <!-- SEARCH BAR -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by name or email...">
+        </div>
+
+        <!-- CONTACT LIST -->
+        <div id="contactList" class="drag-container"></div>
+    </div>
+   
+    <script src="script-api.js"></script>
+    <script>
+        // Check server status on load
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('http://localhost:5000/health');
+                if (response.ok) {
+                    const statusDiv = document.getElementById('serverStatus');
+                    statusDiv.innerHTML = '✅ Connected to MongoDB backend server';
+                    statusDiv.style.backgroundColor = '#d4edda';
+                    statusDiv.style.color = '#155724';
+                    statusDiv.style.borderColor = '#c3e6cb';
+                }
+            } catch (error) {
+                console.warn('Server not running');
+            }
+        });
+    </script>
+</body>
+</html>
