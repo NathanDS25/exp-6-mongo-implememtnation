@@ -86,8 +86,8 @@ app.use(errorHandler);
 // Export the app for Vercel
 export default app;
 
-// Start server only if not in a serverless environment
-if (process.env.NODE_ENV !== 'production' || process.env.VERCEL) {
+// Start server only if NOT on Vercel (local development)
+if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`\n╔════════════════════════════════════════╗`);
     console.log(`║  Contact Manager API Server           ║`);
