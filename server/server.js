@@ -44,7 +44,7 @@ const connectDB = async () => {
 connectDB();
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'Server is running',
@@ -55,13 +55,13 @@ app.get('/health', (req, res) => {
 // API Routes
 app.use('/api/contacts', contactRoutes);
 
-// Root endpoint
-app.get('/', (req, res) => {
+// Root API info endpoint
+app.get('/api', (req, res) => {
   res.json({
     message: 'Contact Manager API',
     version: '1.0.0',
     endpoints: {
-      health: 'GET /health',
+      health: 'GET /api/health',
       getAllContacts: 'GET /api/contacts',
       getContactById: 'GET /api/contacts/:id',
       createContact: 'POST /api/contacts',
