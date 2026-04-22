@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import contactRoutes from './routes/contacts.js';
 import { errorHandler } from './middleware/validation.js';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 dotenv.config();
 
@@ -23,19 +24,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // MongoDB Connection
-mongoose.connect(MONGODB_URI)
-  .then(() => {
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 3000 });
     console.log('✓ Connected to MongoDB successfully');
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error('✗ MongoDB connection failed:', err.message);
-    console.log('⚠ Retrying connection in 5 seconds...');
-    setTimeout(() => {
-      mongoose.connect(MONGODB_URI)
-        .then(() => console.log('✓ MongoDB reconnected'))
-        .catch(e => console.error('✗ MongoDB retry failed:', e.message));
-    }, 5000);
-  });
+    console.log('⚠ Initializing in-memory database fallback...');
+    try {
+      const mongoServer = await MongoMemoryServer.create();
+      const mongoUri = mongoServer.getUri();
+      await mongoose.connect(mongoUri);
+      console.log('✓ Connected to In-Memory MongoDB successfully (Fallback)');
+    } catch (fallbackErr) {
+      console.error('✗ In-Memory MongoDB fallback failed:', fallbackErr.message);
+    }
+  }
+};
+connectDB();
 
 // Health check endpoint
 app.get('/health', (req, res) => {
