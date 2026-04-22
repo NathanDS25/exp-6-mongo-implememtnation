@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 // MongoDB Connection
 const connectDB = async () => {
   try {
-    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 3000 });
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 15000 });
     console.log('✓ Connected to MongoDB successfully');
   } catch (err) {
     console.error('✗ MongoDB connection failed:', err.message);
