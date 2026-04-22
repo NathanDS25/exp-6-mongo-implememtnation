@@ -83,17 +83,24 @@ app.use((req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`\n╔════════════════════════════════════════╗`);
-  console.log(`║  Contact Manager API Server           ║`);
-  console.log(`║  Running on: http://localhost:${PORT}          ║`);
-  console.log(`║  MongoDB: ${MONGODB_URI.substring(0, 26).padEnd(32)}║`);
-  console.log(`╚════════════════════════════════════════╝\n`);
-});
+// Export the app for Vercel
+export default app;
+
+// Start server only if not in a serverless environment
+if (process.env.NODE_ENV !== 'production' || process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n╔════════════════════════════════════════╗`);
+    console.log(`║  Contact Manager API Server           ║`);
+    console.log(`║  Running on: http://localhost:${PORT}          ║`);
+    console.log(`║  MongoDB: ${MONGODB_URI.substring(0, 26).padEnd(32)}║`);
+    console.log(`╚════════════════════════════════════════╝\n`);
+  });
+}
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
   console.error('Unhandled Rejection:', err);
-  process.exit(1);
+  if (process.env.NODE_ENV !== 'production') {
+    process.exit(1);
+  }
 });
