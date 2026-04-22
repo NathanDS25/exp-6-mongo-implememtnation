@@ -18,6 +18,36 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// SEARCH contacts (optional advanced endpoint)
+router.get('/search/query', async (req, res, next) => {
+  try {
+    const { q } = req.query;
+
+    if (!q) {
+      return res.status(400).json({
+        success: false,
+        message: 'Search query is required'
+      });
+    }
+
+    const contacts = await Contact.find({
+      $or: [
+        { name: { $regex: q, $options: 'i' } },
+        { email: { $regex: q, $options: 'i' } },
+        { phone: { $regex: q, $options: 'i' } }
+      ]
+    }).sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: contacts,
+      count: contacts.length
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // GET single contact by ID
 router.get('/:id', async (req, res, next) => {
   try {
@@ -144,36 +174,6 @@ router.delete('/:id', async (req, res, next) => {
         message: 'Invalid contact ID'
       });
     }
-    next(error);
-  }
-});
-
-// SEARCH contacts (optional advanced endpoint)
-router.get('/search/query', async (req, res, next) => {
-  try {
-    const { q } = req.query;
-
-    if (!q) {
-      return res.status(400).json({
-        success: false,
-        message: 'Search query is required'
-      });
-    }
-
-    const contacts = await Contact.find({
-      $or: [
-        { name: { $regex: q, $options: 'i' } },
-        { email: { $regex: q, $options: 'i' } },
-        { phone: { $regex: q, $options: 'i' } }
-      ]
-    }).sort({ createdAt: -1 });
-
-    res.json({
-      success: true,
-      data: contacts,
-      count: contacts.length
-    });
-  } catch (error) {
     next(error);
   }
 });
